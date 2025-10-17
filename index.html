@@ -5,11 +5,10 @@
     <link rel="icon" type="image/svg+xml" href="/hanzi-trainer-logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hanzi Trainer</title>
-    <link href="/src/style.css" rel="stylesheet" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#1976d2" />
     <meta name="description" content="Practice and learn Hanzi characters." />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-title" content="Hanzi Trainer" />
     <link rel="apple-touch-icon" href="/hanzi-trainer-logo.svg" />
@@ -23,7 +22,7 @@
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-          navigator.serviceWorker.register("/service-worker.js");
+          navigator.serviceWorker.register("/hanzi-trainer/service-worker.js");
         });
       }
     </script>

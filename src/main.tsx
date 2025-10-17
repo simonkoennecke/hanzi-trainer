@@ -7,7 +7,7 @@ import { DictionaryContextProvider } from "./Context/DictionaryContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/hanzi-trainer">
       <DictionaryContextProvider>
         <Router />
       </DictionaryContextProvider>

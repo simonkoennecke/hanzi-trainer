@@ -39,11 +39,13 @@ export const DictionaryContextProvider = ({
       ...loadAppConfiguration,
     });
     // Load dictionary
-    const _data = await fetch("/characters.json").then((res) => res.json());
+    const _data = await fetch("/hanzi-trainer/characters.json").then((res) =>
+      res.json()
+    );
     setDict(_data as Dictionary);
 
-    const _indexData = await fetch("/fuse-index.json").then((res) =>
-      res.json()
+    const _indexData = await fetch("/hanzi-trainer/fuse-index.json").then(
+      (res) => res.json()
     );
 
     // Create fuse index
@@ -74,9 +76,9 @@ export const DictionaryContextProvider = ({
     );
     setIndex(fuseIndex as Fuse<DictionaryBaseEntryIndex>);
     // Load training sets
-    const _trainingSets = await fetch("/default-training-sets.json").then(
-      (res) => res.json()
-    );
+    const _trainingSets = await fetch(
+      "/hanzi-trainer/default-training-sets.json"
+    ).then((res) => res.json());
     setTrainingSets(_trainingSets as TrainingSet[]);
     // All done
     setIsReady(true);

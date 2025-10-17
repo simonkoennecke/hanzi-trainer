@@ -2,13 +2,13 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open('hanzi-cache-v1').then(cache => {
       return cache.addAll([
-        '/',
-        '/index.html',
-        '/manifest.json',
-        '/vite.svg',
-        '/characters.json',
-        '/default-training-sets.json',
-        '/fuse-index.json',
+        '/hanzi-trainer/',
+        '/hanzi-trainer/index.html',
+        '/hanzi-trainer/manifest.json',
+        '/hanzi-trainer/vite.svg',
+        '/hanzi-trainer/characters.json',
+        '/hanzi-trainer/default-training-sets.json',
+        '/hanzi-trainer/fuse-index.json',
         // Do not hardcode asset filenames; cache them on fetch
       ]);
     })
@@ -29,8 +29,10 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
-  // Check for assets folder and .js/.css files
-  if (url.pathname.startsWith('/assets/') && (url.pathname.endsWith('.js') || url.pathname.endsWith('.css'))) {
+  // Adjust for base path
+  const basePath = '/hanzi-trainer';
+  // Check for assets folder and .js/.css files under base path
+  if (url.pathname.startsWith(basePath + '/assets/') && (url.pathname.endsWith('.js') || url.pathname.endsWith('.css'))) {
     event.respondWith(
       caches.open('hanzi-cache-v1').then(cache => {
         return cache.match(event.request).then(response => {
@@ -45,9 +47,15 @@ self.addEventListener('fetch', event => {
       })
     );
   } else {
+    // Try to match with and without basePath for navigation requests
     event.respondWith(
       caches.match(event.request).then(response => {
-        return response || fetch(event.request);
+        if (response) return response;
+        // Try matching with basePath if not found
+        const baseRequest = new Request(basePath + url.pathname, event.request);
+        return caches.match(baseRequest).then(baseResponse => {
+          return baseResponse || fetch(event.request);
+        });
       })
     );
   }
