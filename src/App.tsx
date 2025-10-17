@@ -16,8 +16,8 @@ function App() {
 
   return (
     <>
-      <header className="bg-blue-800 text-white">
-        <div className="flex max-w-4xl mx-auto items-center p-2">
+      <header className="bg-blue-800 text-white ">
+        <div className="flex max-w-4xl mx-auto items-center p-2 px-4 sm:px-2">
           <div className="font-semibold text-xs sm:text-s md:text-base lg:text-xl mr-1 sm:mr-3 md:mr-4 lg:mr-6">
             <Link to="/">Hanzi Trainer</Link>
           </div>
@@ -50,7 +50,7 @@ function App() {
         </div>
       </header>
       <div className="border-b border-gray-300  mb-2" />
-      <main className="p-2 mt-4 max-w-4xl mx-auto items-center">
+      <main className="py-2 px-4 sm:px-2 mt-4 max-w-4xl mx-auto items-center">
         {isReady ? (
           <Outlet />
         ) : (
