@@ -1,0 +1,22 @@
+.basic-canvas grid line {
+  stroke: rgb(84, 84, 84);
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes loading {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+

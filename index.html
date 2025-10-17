@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/hanzi-trainer-logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hanzi Trainer</title>
+    <link href="/src/style.css" rel="stylesheet" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1976d2" />
+    <meta name="description" content="Practice and learn Hanzi characters." />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Hanzi Trainer" />
+    <link rel="apple-touch-icon" href="/hanzi-trainer-logo.svg" />
+    <link rel="mask-icon" href="/hanzi-trainer-logo.svg" color="#1976d2" />
+    <meta name="msapplication-TileImage" content="/hanzi-trainer-logo.svg" />
+    <meta name="msapplication-TileColor" content="#1976d2" />
+  </head>
+  <body class="font-sans antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/service-worker.js");
+        });
+      }
+    </script>
+  </body>
+</html>
