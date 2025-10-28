@@ -5,7 +5,6 @@ self.addEventListener('install', event => {
         '/hanzi-trainer/',
         '/hanzi-trainer/index.html',
         '/hanzi-trainer/manifest.json',
-        '/hanzi-trainer/vite.svg',
         '/hanzi-trainer/characters.json',
         '/hanzi-trainer/default-training-sets.json',
         '/hanzi-trainer/fuse-index.json',
