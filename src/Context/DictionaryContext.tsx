@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import Fuse, { type Expression, type FuseIndex } from "fuse.js";
 import {
   DictionaryContext,
@@ -16,7 +16,7 @@ export const DictionaryContextProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const [isInitRunning, setIsInitRunning] = useState(false);
+  const isInitRunningRef = useRef(false);
   const [isReady, setIsReady] = useState(false);
   const [appConfiguration, setAppConfiguration] = useState(
     {} as AppConfiguration
@@ -27,8 +27,8 @@ export const DictionaryContextProvider = ({
 
   // Chained loading the initial
   const init = async () => {
-    if (isInitRunning) return;
-    setIsInitRunning(true);
+    if (isInitRunningRef.current) return;
+    isInitRunningRef.current = true;
     // Load app configuration from local storage
     const loadAppConfiguration = JSON.parse(
       localStorage.getItem("appConfiguration") || "{}"
