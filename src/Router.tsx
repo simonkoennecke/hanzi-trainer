@@ -16,6 +16,7 @@ function Router() {
         <Route path="search/:searchTerm" element={<SearchResult />} />
         <Route path="trainings" element={<TrainingsOverview />} />
         <Route path="training/:trainingsId" element={<TrainingsSet />} />
+        <Route path="training/:trainingsId/page/:page" element={<TrainingsSet />} />
         <Route path="training/:trainingsId/start" element={<Training />} />
         <Route path="entry/:entry" element={<DictionaryPage />} />
         <Route path="entry/:entry/:pinyin" element={<DictionaryPage />} />
