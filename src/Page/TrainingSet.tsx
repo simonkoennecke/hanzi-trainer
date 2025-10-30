@@ -70,6 +70,7 @@ function PageinationControls({
 function TrainingsSet() {
   const { getEntry } = useDictionaryContext()!;
   const { trainingsId, page } = useParams();
+  const navigate = useNavigate();
   const { loadTrainingSet } = useDictionaryContext()!;
   const training = useMemo(
     () => loadTrainingSet(trainingsId!)!,
@@ -85,19 +86,35 @@ function TrainingsSet() {
 
   return (
     <div className="mx-auto -mt-3">
-      {/* Training Set Navigation */}
-      <Link to={"/trainings"}>
-        <span className={"text-sm text-gray-500"}>← Back to Training Sets</span>
-      </Link>
-      {/* Training Set Title and Description */}
-      <h1 className="text-3xl font-bold mb-2">
-        Training Set: {training.title}{" "}
-        {training.source && (
-          <span className="mb-8 text-gray-600 text-sm color-gray-500">
-            (<a href={training.source}>🔗</a>)
-          </span>
-        )}
-      </h1>
+      <div className="flex mb-4">
+        <div>
+          {/* Training Set Navigation */}
+          <Link to={"/trainings"}>
+            <span className={"text-sm text-gray-500"}>
+              ← Back to Training Sets
+            </span>
+          </Link>
+          {/* Training Set Title and Description */}
+          <h1 className="text-3xl font-bold mb-2">
+            Training Set: {training.title}{" "}
+            {training.source && (
+              <span className="mb-8 text-gray-600 text-sm color-gray-500">
+                (<a href={training.source}>🔗</a>)
+              </span>
+            )}
+          </h1>
+        </div>
+        <div className="align-right ml-auto mt-5">
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            onClick={() => {
+              navigate(`/training/${trainingsId}/start`);
+            }}
+          >
+            Start Training
+          </button>
+        </div>
+      </div>
       <div className="mb-8 text-gray-700">{training.description}</div>
 
       {/* Pagination logic */}

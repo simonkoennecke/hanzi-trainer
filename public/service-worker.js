@@ -51,10 +51,15 @@ self.addEventListener('fetch', event => {
       caches.match(event.request).then(response => {
         if (response) return response;
         // Try matching with basePath if not found
-        const baseRequest = new Request(url.pathname, event.request);
-        return caches.match(baseRequest).then(baseResponse => {
-          return baseResponse || fetch(event.request);
-        });
+        try {
+          const baseRequest = new Request(url.pathname, event.request);
+          return caches.match(baseRequest).then(baseResponse => {
+            return baseResponse || fetch(event.request);
+          });
+        } catch (error) {
+          console.error('Error matching request:', error);
+          return fetch(event.request);
+        }
       })
     );
   }
