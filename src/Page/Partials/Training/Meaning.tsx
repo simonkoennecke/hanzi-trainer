@@ -30,12 +30,12 @@ function Meaning({ instance, index, total, onAnswer }: MeaningProps) {
       <div
         className={
           "font-bold mb-4 text-center " +
-          (isCharToMeaning ? "text-2xl" : "text-8xl")
+          (isCharToMeaning ? "text-8xl" : "text-2xl")
         }
       >
         {isCharToMeaning
-          ? instance.question.definition
-          : instance.question.character}{" "}
+          ? instance.question.character
+          : instance.question.definition}{" "}
       </div>
       <div className="grid grid-cols-2 gap-4">
         {answers.map((answer) => (
@@ -43,7 +43,7 @@ function Meaning({ instance, index, total, onAnswer }: MeaningProps) {
             key={answer.definition}
             className={
               "p-4 bg-gray-200 rounded transition-colors " +
-              (isCharToMeaning ? "text-4xl" : "text-xl") +
+              (isCharToMeaning ? "text-xl" : "text-4xl") +
               " " +
               (selectedAnswer
                 ? answer.character === instance.question.character
@@ -55,7 +55,7 @@ function Meaning({ instance, index, total, onAnswer }: MeaningProps) {
             }
             onClick={() => handleAnswer(answer)}
           >
-            {isCharToMeaning ? answer.character : answer.definition}
+            {isCharToMeaning ? answer.definition : answer.character}
           </button>
         ))}
       </div>

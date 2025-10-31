@@ -4,7 +4,15 @@ import type { TrainingInstance, TrainingType } from ".";
 function GenerateTrainingSet(
   dictionary: Dictionary,
   trainingSet: TrainingSet,
-  setSize: number
+  setSize: number,
+  trainingTypes: TrainingType[] = [
+    "char_to_meaning",
+    "meaning_to_char",
+    "char_to_pinyin",
+    "pinyin_to_char",
+    "speak",
+    "writing",
+  ]
 ): TrainingInstance[] {
   // Generate training instances based on the training set entries. Pick random entries from trainingSet.
   const instances: TrainingInstance[] = [];
@@ -21,14 +29,6 @@ function GenerateTrainingSet(
     const questionEntry = dictionary[char];
     if (!questionEntry) continue;
 
-    const trainingTypes: TrainingType[] = [
-      "char_to_meaning",
-      "meaning_to_char",
-      "char_to_pinyin",
-      "pinyin_to_char",
-      "speak",
-      "writing",
-    ];
     const pickType = Math.floor(Math.random() * trainingTypes.length);
     const randomType = trainingTypes[pickType];
     const answerEntries: (typeof questionEntry)[] = [];

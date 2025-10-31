@@ -52,7 +52,7 @@ const Quiz = ({
       <QuizTile
         data={data}
         mode={quizModes[0]}
-        className="w-[512px]"
+        className="w-full md:w-[512px]"
         finishHandler={(result) => {
           if (onAnswer) {
             onAnswer(result);

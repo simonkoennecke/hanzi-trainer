@@ -1,5 +1,6 @@
 import Fuse, { type Expression, type FuseResult } from "fuse.js";
 import type { QuizMode } from "../Page/Partials/Quiz";
+import type { TrainingType } from "../Page/Partials/Training";
 
 export type AppConfiguration = {
   brushColor: string;
@@ -9,6 +10,9 @@ export type AppConfiguration = {
   showMedianLines: boolean;
   showDebug: boolean;
   quizMode: QuizMode[];
+  numberOfQuestions: number;
+  allowTrainingsModes: Record<TrainingType, boolean>;
+  trainingQuizMode: QuizMode;
 };
 
 export type TrainingSet = {

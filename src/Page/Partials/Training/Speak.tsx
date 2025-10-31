@@ -13,7 +13,7 @@ function Speak({ instance, index, total, onAnswer }: SpeakProps) {
       <div className="text-4xl font-bold mb-4 text-center">
         {instance.question.character}
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="flex justify-center">
         <Quiz
           char={instance.question.character}
           quizModes={[QuizMode.TRAIN]}

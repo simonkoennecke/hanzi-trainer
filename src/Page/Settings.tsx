@@ -3,6 +3,11 @@ import { useDictionaryContext, type AppConfiguration } from "../Context";
 import { useForm } from "react-hook-form";
 import { QuizMode } from "./Partials/Quiz";
 import defaultAppConfiguration from "../Context/AppConfigurationDefault";
+import { TrainingType } from "./Partials/Training";
+import QuizModeSelect from "./Partials/Settings/QuizModeSelect";
+import labelTrainingType from "./Partials/Settings/labelTrainingType";
+import TrainingRounds from "./Partials/Settings/TrainingRounds";
+import WritingModeDescriptions from "./Partials/Settings/WritingModeDescriptions";
 
 function Settings() {
   const { appConfiguration, setAppConfiguration } = useDictionaryContext()!;
@@ -47,11 +52,30 @@ function Settings() {
   const onSubmit = async (data: AppConfiguration) => {
     setAppConfiguration(data);
     setIsSaved(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setTimeout(() => setFade(true), 500);
     setTimeout(() => {
       setIsSaved(false);
       setFade(false);
     }, 1200);
+  };
+
+  // reset logic
+  const handleResetDefaults = () => {
+    setValue("brushColor", defaultAppConfiguration.brushColor);
+    setValue("brushWidth", defaultAppConfiguration.brushWidth);
+    setValue("showGrid", defaultAppConfiguration.showGrid);
+    setValue("showMedianLines", defaultAppConfiguration.showMedianLines);
+    setValue("showDebug", defaultAppConfiguration.showDebug);
+    setValue("quizMode", defaultAppConfiguration.quizMode);
+    setValue("numberOfQuestions", defaultAppConfiguration.numberOfQuestions);
+    setValue(
+      "allowTrainingsModes",
+      defaultAppConfiguration.allowTrainingsModes
+    );
+    setValue("trainingQuizMode", defaultAppConfiguration.trainingQuizMode);
+    handleSubmit(onSubmit)();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -66,154 +90,82 @@ function Settings() {
       )}
 
       <h1 className="text-3xl font-bold mb-4">Settings</h1>
-
+      <label className="block text-gray-700 font-medium mb-2">
+        Configure your application settings below. Adjust the training rounds,
+        brush settings, and other preferences to customize your learning
+        experience.
+      </label>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white rounded-lg py-2 mx-auto"
       >
-        <div className="mb-6 items-center">
-          <label className="block text-gray-700 font-medium mr-4 w-32 font-extrabold">
-            Training Rounds
+        <h2 className="text-2xl font-bold mb-4">Training</h2>
+        <label>Allow the training methods:</label>
+        <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-4">
+          {Object.values(TrainingType).map((mode) => (
+            <li
+              key={mode}
+              className="flex items-center bg-gray-50 rounded-lg p-4 hover:bg-blue-50 transition-colors"
+              onClick={() => {
+                const currentValue = watch(
+                  `allowTrainingsModes.${mode}` as const
+                );
+                setValue(`allowTrainingsModes.${mode}`, !currentValue);
+              }}
+            >
+              <input
+                type="checkbox"
+                {...register(`allowTrainingsModes.${mode}` as const)}
+                className="mr-3 accent-blue-500 w-5 h-5"
+                id={`allowTrainingsModes_${mode}`}
+              />
+              <label
+                htmlFor={`allowTrainingsModes_${mode}`}
+                className="text-gray-700 font-medium select-none"
+              >
+                {labelTrainingType[mode]}
+              </label>
+            </li>
+          ))}
+        </ol>
+        <div className="mb-6 flex items-center">
+          <label className="block text-gray-700 font-medium mr-4 w-32">
+            Number of Questions
           </label>
-          <div>
-            <div className="flex space-x-8">
-              <div className="flex-1">
-                <ol>
-                  {quizModes.map((mode, i) => (
-                    <li key={mode + "_" + i} className="my-2">
-                      Round {i + 1}:{" "}
-                      <select
-                        {...register(`quizMode.${i}` as const)}
-                        className={"border border-gray-300 rounded px-3 py-1"}
-                      >
-                        <option
-                          value={QuizMode.PRACTICE}
-                          defaultChecked={mode === QuizMode.PRACTICE}
-                        >
-                          Practice
-                        </option>
-                        <option
-                          value={QuizMode.TRAIN}
-                          defaultChecked={mode === QuizMode.TRAIN}
-                        >
-                          Train
-                        </option>
-                        <option
-                          value={QuizMode.WRITE}
-                          defaultChecked={mode === QuizMode.WRITE}
-                        >
-                          Write
-                        </option>
-                      </select>
-                      <button
-                        onClick={() => swapQuizMode(i, i - 1)}
-                        disabled={i === 0}
-                        hidden={watch("quizMode").length === 1}
-                        className="ml-2 px-2 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 15l7-7 7 7"
-                          />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={() => swapQuizMode(i, i + 1)}
-                        disabled={i === watch("quizMode").length - 1}
-                        hidden={watch("quizMode").length === 1}
-                        className="ml-2 px-2 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      </button>
-                      <button
-                        type="button"
-                        className="ml-2 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                        hidden={watch("quizMode").length === 1}
-                        onClick={() => removeQuizMode(i)}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
-                      </button>
-                    </li>
-                  ))}
-                  <li>
-                    Add another Round:{" "}
-                    <select
-                      ref={newQuizModeRef}
-                      className="border border-gray-300 rounded px-3 py-1 mr-2"
-                    >
-                      <option value={QuizMode.PRACTICE}>Practice</option>
-                      <option value={QuizMode.TRAIN}>Train</option>
-                      <option value={QuizMode.WRITE}>Write</option>
-                    </select>
-                    <button
-                      type="button"
-                      className="ml-2 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                      onClick={() => {
-                        addQuizMode(newQuizModeRef.current!.value as QuizMode);
-                      }}
-                    >
-                      Add
-                    </button>
-                  </li>
-                </ol>
-              </div>
-            </div>
-          </div>
+          <input
+            type="range"
+            {...register("numberOfQuestions", { valueAsNumber: true })}
+            className="w-full accent-blue-500"
+            min={5}
+            max={25}
+          />
+          <span className="ml-4 text-gray-600 font-mono">
+            {watch("numberOfQuestions")}
+          </span>
         </div>
-        <div>
-          <div className="text-sm text-gray-500 my-4">
-            <p>
-              <strong>Practice:</strong> The character is displayed, and you are
-              prompted to draw it. This mode provides guidance and is ideal for
-              familiarization and warm-up.
-              <br />
-              <strong>Train:</strong> You must draw each stroke in the correct
-              order. If a mistake is made, you can try again. After three
-              incorrect attempts, a hint will be provided to assist you. This
-              mode helps reinforce stroke order and accuracy.
-              <br />
-              <strong>Write:</strong> You are asked to write the character
-              independently, without any hints or guidance. After completion,
-              your result is shown and evaluated, with emphasis on correct
-              stroke order. This mode is designed for testing your mastery.
-            </p>
-          </div>
+        <div className="mb-6 flex items-center">
+          <label className="block text-gray-700 font-medium mr-4 w-32">
+            Writing Mode
+          </label>
+          <QuizModeSelect
+            value={watch("trainingQuizMode")}
+            onChange={(mode) =>
+              setValue(`trainingQuizMode` as const, mode as QuizMode)
+            }
+          />
         </div>
+        {/* Writing Settings */}
+        <h2 className="text-2xl font-bold mb-4">Writing</h2>
+        <TrainingRounds
+          quizModes={quizModes}
+          setValue={(name: string, value: any) => setValue(name as any, value)}
+          swapQuizMode={swapQuizMode}
+          removeQuizMode={removeQuizMode}
+          addQuizMode={addQuizMode}
+          newQuizModeRef={newQuizModeRef as React.RefObject<HTMLSelectElement>}
+          watch={watch}
+        />
+        <WritingModeDescriptions />
         <div className="mb-6 flex items-center">
           <label className="block text-gray-700 font-medium mr-4 w-32">
             Brush Color
@@ -285,18 +237,7 @@ function Settings() {
         <button
           type="button"
           className="w-full mt-2 bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold shadow hover:bg-gray-600 transition-colors"
-          onClick={() => {
-            setValue("brushColor", defaultAppConfiguration.brushColor);
-            setValue("brushWidth", defaultAppConfiguration.brushWidth);
-            setValue("showGrid", defaultAppConfiguration.showGrid);
-            setValue(
-              "showMedianLines",
-              defaultAppConfiguration.showMedianLines
-            );
-            setValue("showDebug", defaultAppConfiguration.showDebug);
-            setValue("quizMode", defaultAppConfiguration.quizMode);
-            handleSubmit(onSubmit)();
-          }}
+          onClick={handleResetDefaults}
         >
           Reset to Default Values
         </button>

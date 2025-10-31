@@ -2,7 +2,7 @@ import { useDictionaryContext } from "../Context";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router";
 import GenerateTrainingSet from "./Partials/Training/Generator";
-import type { TrainingInstanceState } from "./Partials/Training";
+import type { TrainingInstanceState, TrainingType } from "./Partials/Training";
 import Meaning from "./Partials/Training/Meaning";
 import Writing from "./Partials/Training/Writing";
 import Pinyin from "./Partials/Training/Pinyin";
@@ -10,16 +10,25 @@ import Speak from "./Partials/Training/Speak";
 
 function Training() {
   const { trainingsId } = useParams();
-  const { loadTrainingSet, dictionary } = useDictionaryContext()!;
+  const { loadTrainingSet, dictionary, appConfiguration } =
+    useDictionaryContext()!;
   const trainingSet = useMemo(
     () => loadTrainingSet(trainingsId!)!,
     [trainingsId, loadTrainingSet]
   );
   const trainingInstances = useMemo(
-    () => GenerateTrainingSet(dictionary, trainingSet, 10),
+    () =>
+      GenerateTrainingSet(
+        dictionary,
+        trainingSet,
+        appConfiguration.numberOfQuestions,
+        (
+          Object.keys(appConfiguration.allowTrainingsModes) as TrainingType[]
+        ).filter((mode) => appConfiguration.allowTrainingsModes[mode])
+      ),
     [dictionary, trainingSet]
   );
-  console.log("Generated training instances:", trainingInstances);
+
   const [trainingInstanceState, setTrainingInstanceState] = useState<
     TrainingInstanceState[]
   >(

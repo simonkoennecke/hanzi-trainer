@@ -32,12 +32,12 @@ function Pinyin({ instance, index, total, onAnswer }: PinyinProps) {
         <div
           className={
             "text-4xl font-bold mb-4 text-center " +
-            (isCharToPinyin ? "text-2xl" : "text-8xl")
+            (isCharToPinyin ? "text-8xl" : "text-2xl")
           }
         >
           {isCharToPinyin
-            ? instance.question.pinyin.join(", ")
-            : instance.question.character}{" "}
+            ? instance.question.character
+            : instance.question.pinyin.join(", ")}{" "}
         </div>
         <div className="grid grid-cols-2 gap-4">
           {answers.map((answer) => (
@@ -57,7 +57,7 @@ function Pinyin({ instance, index, total, onAnswer }: PinyinProps) {
               }
               onClick={() => handleAnswer(answer)}
             >
-              {isCharToPinyin ? answer.character : answer.pinyin.join(", ")}{" "}
+              {isCharToPinyin ? answer.pinyin.join(", ") : answer.character}{" "}
             </button>
           ))}
         </div>
