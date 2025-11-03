@@ -70,6 +70,7 @@ yarn lint
   - `Context/` - React context providers and configuration
   - `assets/` - Static assets
 - `public/` - Static files and data (character sets, manifest, etc.)
+  - `audios/` - Audio files are sourced from the [audio-cmn project](https://github.com/hugolpz/audio-cmn/tree/master).
 - `script/` - Utility scripts for data processing to create the FUSE index
 
 ## Data Files
@@ -77,6 +78,7 @@ yarn lint
 - `public/characters.json` - List of Chinese characters
 - `public/default-training-sets.json` - Predefined training sets
 - `public/fuse-index.json` - Search index for fast dictionary lookup
+- `public/audios/index.json` - JSON array with available pinyin's
 
 ## Contributing
 
