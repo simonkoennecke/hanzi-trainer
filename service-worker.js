@@ -8,6 +8,7 @@ self.addEventListener('install', event => {
         '/hanzi-trainer/characters.json',
         '/hanzi-trainer/default-training-sets.json',
         '/hanzi-trainer/fuse-index.json',
+        '/hanzi-trainer/audio/index.json',
         // Do not hardcode asset filenames; cache them on fetch
       ]);
     })
