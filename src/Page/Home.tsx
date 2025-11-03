@@ -99,13 +99,20 @@ function Home() {
             className="text-blue-600 hover:underline"
           >
             Make Me a Hanzi
-          </a>{" "}
-          and{" "}
+          </a>
+          ,{" "}
           <a
             href="https://github.com/chanind/hanzi-writer-data"
             className="text-blue-600 hover:underline"
           >
             Hanzi Writer Data
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://github.com/hugolpz/audio-cmn"
+            className="text-blue-600 hover:underline"
+          >
+            Audio CMN
           </a>
           . Many thanks to the maintainers of these projects for making learning
           resources freely available!

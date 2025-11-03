@@ -45,6 +45,7 @@ export type DictionaryContextType = {
   isReady: boolean;
   appConfiguration: AppConfiguration;
   dictionary: Dictionary;
+  audio: string[]; // list of pinyin strings for which audio files are available
   trainingSets: TrainingSet[];
   index: Fuse<DictionaryBaseEntryIndex>;
   init: () => Promise<void>;

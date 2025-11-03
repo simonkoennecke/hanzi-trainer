@@ -22,6 +22,7 @@ export const DictionaryContextProvider = ({
     {} as AppConfiguration
   );
   const [dict, setDict] = useState({} as Dictionary);
+  const [audio, setAudio] = useState([] as string[]);
   const [trainingSets, setTrainingSets] = useState([] as TrainingSet[]);
   const [index, setIndex] = useState({} as Fuse<DictionaryBaseEntryIndex>);
 
@@ -80,6 +81,12 @@ export const DictionaryContextProvider = ({
       "/hanzi-trainer/default-training-sets.json"
     ).then((res) => res.json());
     setTrainingSets(_trainingSets as TrainingSet[]);
+
+    // Load audio index
+    const _audioIndex = await fetch("/hanzi-trainer/audios/index.json").then(
+      (res) => res.json()
+    );
+    setAudio(_audioIndex as string[]);
     // All done
     setIsReady(true);
   };
@@ -111,6 +118,7 @@ export const DictionaryContextProvider = ({
         appConfiguration,
         dictionary: dict,
         trainingSets,
+        audio,
         index,
         init,
         search,

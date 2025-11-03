@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { useDictionaryContext, type DictionaryBaseEntry } from "../../Context";
 import { useMemo } from "react";
+import PinyinWithAudio from "./Card/PinyinWithAudio";
 
 interface DictionaryCardProps {
   dictionaryEntry?: DictionaryBaseEntry;
@@ -43,7 +44,11 @@ function DictionaryCard({
   const content = (
     <>
       <div className="text-4xl mb-2">{data.character}</div>
-      <div className="text-xl text-gray-600 mb-1">{data.pinyin}</div>
+      <div className="">
+        {data.pinyin.map((e) => (
+          <PinyinWithAudio key={e} pinyin={e} />
+        ))}
+      </div>
       <div className="text-center text-xs text-gray-500">{data.definition}</div>
     </>
   );
@@ -53,9 +58,9 @@ function DictionaryCard({
   return (
     <Link
       key={data.character}
-      aria-label={data.character + " " + data.pinyin}
+      aria-label={data.character + " " + data.pinyin.join(", ")}
       className={className + cssCls}
-      to={"/entry/" + data.character + "/" + data.pinyin}
+      to={"/entry/" + data.character + "/" + data.pinyin.join(",")}
     >
       {content}
     </Link>

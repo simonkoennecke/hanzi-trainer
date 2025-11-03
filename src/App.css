@@ -20,3 +20,20 @@
   }
 }
 
+.group:hover svg,
+.group:focus svg {
+  stroke: #4f46e5; /* indigo-600 */
+  fill: #4f46e5;
+}
+.group:hover button,
+.group:focus button {
+  outline-color: #4f46e5;
+}
+.group:hover span,
+.group:focus span {
+  color: #4f46e5;
+}
+.group:hover path,
+.group:focus path {
+  stroke: #4f46e5;
+}

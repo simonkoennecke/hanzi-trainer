@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useParams } from "react-router";
 import { useDictionaryContext } from "../Context";
 import Quiz from "./Partials/Quiz/Quiz";
+import PinyinWithAudio from "./Partials/Card/PinyinWithAudio";
 
 function DictionaryPage() {
   const { entry } = useParams();
@@ -17,8 +18,13 @@ function DictionaryPage() {
       )}
       {data && (
         <div className="text-center mb-4">
-          <div className="text-2xl font-bold mb-2">
-            {data.character} - {data.pinyin}
+          <div>
+            <span className="text-8xl font-bold mb-2">{data.character}</span>
+            <div className="text-2xl mt-2">
+              {data.pinyin.map((e) => (
+                <PinyinWithAudio key={e} pinyin={e} />
+              ))}
+            </div>
           </div>
           <div className="text-gray-700 mb-4">{data.definition}</div>
           <Quiz char={data.character} quizModes={appConfiguration.quizMode} />
